@@ -1,1 +1,115 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+html, body, ul, li, p, h1, form, label, textarea, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Definições globais de fonte */
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+/* Estilos para o corpo da página */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('bg.jpg');
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+}
+
+/* Estilos para o formulário */
+.formulario {
+    text-align: center;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0 ,0, .2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+    width: 70%;
+}
+
+/* Estilos para o cabeçalho */
+.formulario .remetente {
+    text-align: center;
+    font-size: 24px;
+}
+
+/* Estilos para o campo de destinatário */
+.formulario .destin {
+    margin: 20x;
+}
+
+.formulario .destin label {
+    font-size: 24px;
+    color: #fff;
+}
+
+.formulario .destin input {
+    width: 50%;
+    height: 30px;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 10px 20px 10px;
+}
+
+/* Estilos para a data */
+.formulario .data {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.formulario .data p {
+    font-size: 16px;
+    color: #fff;
+}
+
+/* Estilos para o campo da mensagem */
+.formulario .msg label {
+    font-size: 24px;
+    color: #fff;
+}
+
+.formulario .msg textarea {
+    width: 100%;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 10px;
+    font-size: 16px;
+    color: #fff;
+    padding: 10px;
+    resize: vertical;
+}
+
+.formulario .btnCarta button{
+    width: 50%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 32px;
+    color: #333;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.formulario .btnCarta button:hover{
+    background-color: #333; /* Cor de fundo alterada */
+    color: #fff; /* Cor do texto alterada */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}

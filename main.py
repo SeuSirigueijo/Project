@@ -4,7 +4,7 @@ import datetime, secrets
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(24)
 
-data_atual = datetime.datetime.now().strftime("%d-%m-%Y")
+data_atual = datetime.datetime.now().strftime("%d/%m/%Y")
 
 def verificarCredenciais(username, password):
     with open("usuarios.txt", "r") as arquivo:
