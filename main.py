@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 import datetime, secrets
 
+i = 0
+
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(24)
 
@@ -14,6 +16,15 @@ def verificarCredenciais(username, password):
             if len(dados) == 2 and dados[0] == username and dados[1] == password:
                 return True
         return False
+    
+def criarCarta(data, destinatario, mensagem, remetente):
+    global i
+    carta = open("carta"+str(i)+".txt", "a")
+    print(data+destinatario+mensagem+remetente)
+    carta.write(data+"\n"+destinatario+"\n"+mensagem+"\n"+remetente)
+    carta.close()
+    i+=1
+
 
 @app.route("/")
 def home():
@@ -35,14 +46,21 @@ def login():
         print("deu errado")
         return redirect(url_for("home"))
 
-@app.route("/carta")
+@app.route("/carta", methods = ["POST", "GET"])
 def enviarCarta():
     username = session.get("username")
-    password = session.get("password")
     if username:
-        return render_template("carta.html", username=username, password=password, data_atual=data_atual)
+        if request.method == "POST":
+            data = data_atual
+            destinatario = request.form.get("destinatario")
+            mensagem = request.form.get("mensagem")
+            remetente = session["username"]
+            criarCarta(data, destinatario, mensagem, remetente)
+            flash("Carta enviada com sucesso!", "success")
+        return render_template("carta.html", username=username, data_atual=data_atual)
     else:
         flash("Você precisa fazer login para acessar essa página.", "error")
-
+        return redirect(url_for("home"))
+    
 if __name__ == "__main__":
     app.run(debug = True)
