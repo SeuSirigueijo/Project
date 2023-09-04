@@ -9,6 +9,19 @@
 </head>
 <body>
     <div class = "wrapper">
+
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class="flashes">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </div>
+
         <form method="POST" action="/login">
             <h1>CartECA</h1>
             <div class="input-box">
@@ -19,8 +32,10 @@
                 <input type="password" placeholder="Senha" id = "password" name = "password" required>
                 <i class='bx bxs-lock-alt' ></i>
             </div>
-
             <button type="submit" class = "btn">Entrar</button>
+            <div class = "register">
+                <p>Não tem uma conta? <a href="#">Crie agora.</a></p>
+            </div>
         </form>
     </div>
 </body>

@@ -3,9 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Carta</title>
+    <link rel="stylesheet" href="static/carta.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
-    
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+    <p>Olá, {{username}}</p>
+    <form method="POST" action="/mail">
+        <label for="destinatario">Destinatario: </label>
+        <input type="text" id="destinatario" name="destinatario"><br>
+        <p>Data:{{ data_atual}}</p>
+        <label for="mensagem">Carta:</label>
+        <textarea name="mensagem" rows="20" cols="500"></textarea>
+        <button type="submit">Enviar carta</button>]
+        <label></label>
+    </form>
 </body>
 </html>

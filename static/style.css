@@ -78,3 +78,19 @@ body{
     color: #333;
     font-weight: 600;
 }
+
+.wrapper .register{
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.register p a{
+    color:#fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register p a:hover{
+    text-decoration: underline;
+}
