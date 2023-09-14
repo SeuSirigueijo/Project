@@ -1,85 +1,12 @@
 from flask import Flask, render_template, request, redirect, session, url_for, flash
-import datetime, secrets, textwrap, sys
-from fpdf import FPDF
+import datetime, secrets, comandos
 
-i = 0
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(24)
 
 data_atual = datetime.datetime.now().strftime("%d/%m/%Y")
-
-
-def verificarCredenciais(username, password):
-    with open("usuarios.txt", "r", encoding="utf-8") as arquivo:
-        linhas = arquivo.readlines()
-        for linha in linhas:
-            dados = linha.strip().split()
-            if len(dados) == 2 and dados[0] == username and dados[1] == password:
-                return True
-        return False
-
-
-def criarCarta(data, destinatario, mensagem, remetente):
-    global i
-    carta = open("carta" + str(i) + ".txt", "w", encoding="utf-8")
-    print(data + destinatario + mensagem + remetente)
-    carta.write(
-        "Data: "
-        + data
-        + "\n"
-        + "Destinatário: "
-        + destinatario
-        + "\n"
-        + "Mensagem:\n"
-        + mensagem
-        + "\n"
-        + "Remetente: "
-        + remetente
-    )
-    carta.close()
-    i += 1
-
-
-def txtParaPdf(txt, arquivo):
-    a4_width_mm = 210
-    pt_to_mm = 0.35
-    fontsize_pt = 10
-    fontsize_mm = fontsize_pt * pt_to_mm
-    margin_bottom_mm = 10
-    character_width_mm = 7 * pt_to_mm
-    width_text = a4_width_mm / character_width_mm
-
-    pdf = FPDF(orientation="P", unit="mm", format="A4")
-    pdf.set_auto_page_break(True, margin=margin_bottom_mm)
-    pdf.add_page()
-    pdf.set_font(family="Courier", size=fontsize_pt)
-    splitted = txt.split("\n")
-
-    for line in splitted:
-        lines = textwrap.wrap(line, width_text)
-
-        if len(lines) == 0:
-            pdf.ln()
-
-        for wrap in lines:
-            pdf.cell(0, fontsize_mm, wrap, ln=1)
-
-    pdf.output(arquivo, "F")
-
-
-def cadastrarUsuario(username, password):
-    with open("usuarios.txt", "r", encoding="utf-8") as arquivo:
-        linhas = arquivo.readlines()
-        for linha in linhas:
-            dados = linha.strip().split()
-            if len(dados) == 2 and dados[0] == username:
-                return False
-
-    with open("usuarios.txt", "a", encoding="utf-8") as arquivo:
-        arquivo.write(f"{username} {password}\n")
-    return True
-
+hora_atual = datetime.datetime.now().strftime("%H-%M-%S")
 
 @app.route("/")
 def home():
@@ -91,7 +18,7 @@ def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        if verificarCredenciais(username, password):
+        if comandos.verificarCredenciais(username, password):
             session["username"] = username
             session["password"] = password
             return redirect(url_for("enviarCarta"))
@@ -108,7 +35,7 @@ def cadastro():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        if cadastrarUsuario(username, password):
+        if comandos.cadastrarUsuario(username, password):
             flash("Usuário cadastrado com sucesso!", "success")
             return redirect(url_for("home"))
         else:
@@ -128,16 +55,16 @@ def enviarCarta():
             destinatario = request.form.get("destinatario")
             mensagem = request.form.get("mensagem")
             remetente = session["username"]
-            criarCarta(data, destinatario, mensagem, remetente)
+            comandos.criarCarta(data, destinatario, mensagem, remetente)
             flash("Carta salva com sucesso!", "success")
 
-            nome_arquivo_texto = f"carta{i-1}.txt"
-            nome_arquivo_pdf = f"carta{i-1}.pdf"
+            nome_arquivo_texto = f"carta{hora_atual}.txt"
+            nome_arquivo_pdf = f"carta{hora_atual}.pdf"
 
             with open(nome_arquivo_texto, "r", encoding="utf-8") as arquivo_texto:
                 conteudo_texto = arquivo_texto.read()
 
-            txtParaPdf(conteudo_texto, nome_arquivo_pdf)
+            comandos.txtParaPdf(conteudo_texto, nome_arquivo_pdf)
 
         return render_template("carta.html", username=username, data_atual=data_atual)
     else:
