@@ -1,3 +1,5 @@
+#João Gabriel, André Mendes e Maria Eduarda
+
 from flask import Flask, render_template, request, redirect, session, url_for, flash
 import datetime, secrets, comandos
 
